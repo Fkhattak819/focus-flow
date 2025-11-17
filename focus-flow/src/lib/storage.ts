@@ -5,6 +5,8 @@ export type ActiveSession = {
   startedAt: number
   durationMs: number
   type: SessionType
+  pausedAt?: number  // timestamp when paused, undefined if running
+  totalPausedMs?: number  // total milliseconds paused so far
 }
 
 const KEY = "activeSession"
