@@ -1,13 +1,4 @@
-export type SessionType = "pomodoro" | "flow" | "quick" | "custom"
-
-export type ActiveSession = {
-  task: string
-  startedAt: number
-  durationMs: number
-  type: SessionType
-  pausedAt?: number  // timestamp when paused, undefined if running
-  totalPausedMs?: number  // total milliseconds paused so far
-}
+import type { ActiveSession } from "../types"
 
 const KEY = "activeSession"
 

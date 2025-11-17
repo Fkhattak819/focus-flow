@@ -1,9 +1,7 @@
-export type Theme = "light" | "dark"
+import type { Settings, Theme } from "../types"
 
-export type Settings = {
-  transparency: number  // 0-100
-  theme: Theme
-}
+// Re-export for convenience
+export type { Settings, Theme }
 
 const DEFAULT_SETTINGS: Settings = {
   transparency: 95,

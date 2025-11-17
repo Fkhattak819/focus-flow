@@ -1,5 +1,5 @@
 import { getActive, setActive } from "./lib/storage"
-import type { ActiveSession } from "./lib/storage"
+import type { ActiveSession } from "./types"
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.alarms.create("tick", { periodInMinutes: 1 / 60 }) // ~1s
