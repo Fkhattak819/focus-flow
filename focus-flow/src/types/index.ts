@@ -18,3 +18,15 @@ export type Settings = {
   theme: Theme
 }
 
+// Distracting Sites Types
+export type SiteCategory = "social" | "entertainment" | "shopping" | "news" | "other"
+
+export type DistractingSite = {
+  id: string
+  name: string
+  domain: string
+  category: SiteCategory
+  nudgeCount: number
+  createdAt: number
+}
+

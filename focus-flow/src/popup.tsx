@@ -5,16 +5,18 @@ import { useSession } from "./hooks/useSession"
 import { getThemeColors, getTextColorClasses } from "./utils/theme"
 import { Header } from "./components/Header"
 import { SettingsButton } from "./components/SettingsButton"
-import { Tabs } from "./components/Tabs"
+import { Tabs, type TabType } from "./components/Tabs"
 import { SettingsPanel } from "./components/SettingsPanel"
 import { SessionForm } from "./components/SessionForm"
 import { RunningView } from "./components/RunningView"
+import { DistractionsPanel } from "./components/DistractionsPanel"
 import "./style.css"
 
 export default function Popup() {
   const { settings, update: updateSettings } = useSettings()
   const { active, remainingMs, setActive } = useSession()
   const [showSettings, setShowSettings] = useState(false)
+  const [selectedTab, setSelectedTab] = useState<TabType>("focus")
 
   const isDark = settings.theme === "dark"
   const opacity = settings.transparency / 100
@@ -71,26 +73,32 @@ export default function Popup() {
 
         <Header isDark={isDark} />
 
-        <Tabs isDark={isDark} opacity={opacity} />
+        <Tabs isDark={isDark} opacity={opacity} selectedTab={selectedTab} onTabChange={setSelectedTab} />
 
         {showSettings && (
           <SettingsPanel settings={settings} onUpdate={updateSettings} onClose={() => setShowSettings(false)} />
         )}
 
-        {!running ? (
-          <SessionForm onStart={handleStart} disabled={running} settings={settings} />
-        ) : (
-          <RunningView
-            active={active}
-            remainingMs={remainingMs}
-            isPaused={!!active.pausedAt}
-            onReset={handleReset}
-            onPause={handlePause}
-            onResume={handleResume}
-            onStop={handleStop}
-            settings={settings}
-          />
+        {selectedTab === "focus" && (
+          <>
+            {!running ? (
+              <SessionForm onStart={handleStart} disabled={running} settings={settings} />
+            ) : (
+              <RunningView
+                active={active}
+                remainingMs={remainingMs}
+                isPaused={!!active.pausedAt}
+                onReset={handleReset}
+                onPause={handlePause}
+                onResume={handleResume}
+                onStop={handleStop}
+                settings={settings}
+              />
+            )}
+          </>
         )}
+
+        {selectedTab === "distractions" && <DistractionsPanel settings={settings} />}
       </div>
     </div>
   )

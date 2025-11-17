@@ -72,10 +72,18 @@ async function endSession(reason: "completed" | "stopped") {
 
   const title =
     reason === "completed" ? "Focus complete" : "Session stopped"
-  chrome.notifications.create({
-    type: "basic",
-    iconUrl: "assets/deepWorkIcon.png",
-    title,
-    message: `Task: ${s.task}`
-  })
+  chrome.notifications.create(
+    {
+      type: "basic",
+      title,
+      message: `Task: ${s.task}`,
+    },
+    (notificationId) => {
+      // Check for errors
+      if (chrome.runtime.lastError) {
+        // Silently ignore - notification is not critical
+        return
+      }
+    }
+  )
 }
